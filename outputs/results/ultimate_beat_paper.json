@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-01-19T13:37:26.729371",
+  "experiment": "Ultimate_GNN_COATI_Beat_Paper",
+  "validation_method": "Leave_Country_Out",
+  "train_samples": 24829,
+  "test_samples": 3413,
+  "train_countries": 81,
+  "test_countries": 20,
+  "best_params": {
+    "adj_threshold": 0.95,
+    "hidden": 32,
+    "epochs": 80,
+    "lr": 0.001,
+    "batch": 64
+  },
+  "ensemble_weights": [
+    0.0,
+    0.0,
+    1.0,
+    0.0
+  ],
+  "our_results": {
+    "mae": 67983.265625,
+    "rmse": 99991.984375,
+    "r2": 0.05471241474151611,
+    "mape": 2.2881276607513428
+  },
+  "base_paper_results": {
+    "mae": 10425.7,
+    "rmse": 15534.5,
+    "r2": 0.96845,
+    "mape": 0.07794
+  },
+  "note": "Results not directly comparable - different validation methods"
+}

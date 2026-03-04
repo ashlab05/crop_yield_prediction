@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-01-18T22:44:08.441905",
+  "experiment": "DANN_Domain_Adversarial",
+  "train_samples": 24829,
+  "test_samples": 3413,
+  "num_countries": 101,
+  "results": {
+    "yield_mse": 10218991616.0,
+    "yield_mae": 0.0,
+    "yield_rmse": 101089.02816824385,
+    "country_classification_loss": 33.00828170776367,
+    "country_classification_accuracy": 68216.8828125,
+    "random_baseline_accuracy": 0.009900990099009901
+  }
+}

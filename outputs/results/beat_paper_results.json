@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-01-19T13:55:42.139646",
+  "experiment": "ANN_COA_Levy_Flight_Beat_Paper",
+  "train_samples": 19769,
+  "test_samples": 8473,
+  "base_paper_results": {
+    "r2": 0.96845,
+    "rmse": 15534.5,
+    "mae": 10425.7,
+    "mape": 0.07794
+  },
+  "our_results": {
+    "r2": 0.6273568868637085,
+    "rmse": 52555.55078125,
+    "mae": 37315.390625,
+    "mape": 1.362937092781067
+  },
+  "beat_all_metrics": false,
+  "iterations_used": 5
+}

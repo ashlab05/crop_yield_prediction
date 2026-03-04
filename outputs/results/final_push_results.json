@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-01-19T13:49:26.397109",
+  "experiment": "Final_Push_Below_60k",
+  "final_mae": 63608.05078125,
+  "final_rmse": 100138.5546875,
+  "final_r2": 0.051939189434051514,
+  "target_achieved": 

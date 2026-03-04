@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-01-19T19:35:57.686456",
+  "experiment": "Journal_Grade_COATI_GNN",
+  "normalization": "log(y+1) + z-score",
+  "edge_construction": "climate_similarity + development_proxy",
+  "loss": "Huber(delta=1.0)",
+  "ablation_results": {
+    "Ensemble": 37298.89577236851,
+    "Climate_GNN": 37417.765625,
+    "Proposed_COATI_GNN": 40861.890625,
+    "Geographic_GNN": 43716.6796875,
+    "RandomForest": 58062.56027212581,
+    "Ridge": 60532.87890625
+  },
+  "best_model": "Ensemble",
+  "best_mae": 37298.89577236851,
+  "target_55k_achieved": true,
+  "target_50k_achieved": true,
+  "improvement_vs_geo_gnn": 14.680401075762717,
+  "ensemble_weights": [
+    0.2,
+    0.8,
+    0.0
+  ]
+}

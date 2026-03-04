@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-01-19T19:39:50.680654",
+  "experiment": "Final_With_Proper_R2",
+  "validation": "Leave_Country_Out",
+  "results": {
+    "Ridge": {
+      "mae": 60532.87890625,
+      "rmse": 106981.140625,
+      "r2": -0.08205163478851318,
+      "mape": 1.1913384199142456
+    },
+    "GradientBoosting": {
+      "mae": 59493.438596115746,
+      "rmse": 103603.64509591588,
+      "r2": -0.014807418511937342,
+      "mape": 1.1126786108329652
+    },
+    "Geographic_GNN": {
+      "mae": 43736.1328125,
+      "rmse": 76359.4375,
+      "r2": 0.44873684644699097,
+      "mape": 0.5719618201255798
+    },
+    "Climate_GNN": {
+      "mae": 36791.48046875,
+      "rmse": 61735.76171875,
+      "r2": 0.6396644115447998,
+      "mape": 0.6584854125976562
+    },
+    "COATI_GNN": {
+      "mae": 40180.1875,
+      "rmse": 65595.875,
+      "r2": 0.5931946039199829,
+      "mape": 0.8536801338195801
+    },
+    "Ensemble": {
+      "mae": 36727.60694548246,
+      "rmse": 61684.03988887873,
+      "r2": 0.6402679098840194,
+      "mape": 0.0
+    }
+  },
+  "best_model": "Ensemble",
+  "best_mae": 36727.60694548246,
+  "best_r2": 0.6402679098840194,
+  "ensemble_weights": [
+    0.1,
+    0.9,
+    0.0
+  ],
+  "note": "R\u00b2 is lower under LCO because test countries have different yield distributions"
+}

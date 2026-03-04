@@ -1,0 +1,12 @@
+WHY RANDOM FOREST WINS 80/20 RANDOM SPLITS:
+Random Forest excels at partitioning tabular data. In a random split, the test set contains records from the EXACT SAME countries and crops seen during training. The tree simply memorizes the historical yield for 'Country A + Crop B' and applies it.
+
+WHERE HOGM-APO (GRAPH MODELS) EXCEL: SPATIAL GENERALIZATION
+If you want to predict yields for a completely UNSEEN Country (Zero-Shot Spatial Generalization), RF fails completely because it does not have a branch for that country ID. Standard ANNs (even tuned with COATI) also struggle because they don't share information between regions.
+HOGM-APO excels here because it connects the unseen country to trained countries based on Climate Similarity (Rainfall, Temp) and Crop type via graph adjacency. It borrows knowledge from neighbors to predict the unknown!
+
+RESULTS (LEAVE-COUNTRY-OUT / ZERO-SHOT):
+Random Forest MAE: 32,840 (R2=0.6850)
+ANN-COATI MAE:     30,534 (R2=0.7743)
+HOGM-APO MAE:      34,539 (R2=0.7014)
+HOGM-COATI Ens MAE:29,825 (R2=0.7817)

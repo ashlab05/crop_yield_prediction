@@ -1,0 +1,24 @@
+{
+  "feature_importance": {
+    "Rainfall (mm/year)": 3823.80251835938,
+    "Pesticides (tonnes)": 3956.3755906901083,
+    "Temperature (\u00b0C)": 5866.606523763023
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "feature": "Temperature (\u00b0C)",
+      "importance": 5866.606523763023
+    },
+    {
+      "rank": 2,
+      "feature": "Pesticides (tonnes)",
+      "importance": 3956.3755906901083
+    },
+    {
+      "rank": 3,
+      "feature": "Rainfall (mm/year)",
+      "importance": 3823.80251835938
+    }
+  ]
+}

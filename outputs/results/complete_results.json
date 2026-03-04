@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-01-18T23:01:58.629583",
+  "experiment": "Complete_Pipeline_Spatial_Generalization",
+  "config": {
+    "epochs": 20,
+    "batch_size": 64,
+    "train_countries": 81,
+    "test_countries": 20,
+    "train_samples": 24829,
+    "test_samples": 3413,
+    "climate_similarity_threshold": 0.95
+  },
+  "results": {
+    "MLP_Baseline": {
+      "mae": 68474.890625,
+      "rmse": 100502.36184289402,
+      "r2": 0.04503798484802246
+    },
+    "Geographic_GNN": {
+      "mae": 67877.71875,
+      "rmse": 100358.06104145297,
+      "r2": 0.047778308391571045
+    },
+    "Climate_GNN": {
+      "mae": 68368.59375,
+      "rmse": 100727.03899152402,
+      "r2": 0.04076355695724487
+    },
+    "DANN": {
+      "mae": 68527.53125,
+      "rmse": 100616.92581270807,
+      "r2": 0.04285961389541626
+    }
+  },
+  "best_model": "Climate_GNN",
+  "best_mae": 68368.59375,
+  "improvement_over_baseline": {
+    "vs_mlp": 106.296875,
+    "vs_geo_gnn": -490.875
+  }
+}

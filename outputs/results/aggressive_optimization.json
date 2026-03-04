@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-01-19T14:00:24.125878",
+  "experiment": "Aggressive_Optimization",
+  "final_mae": 61717.96102755874,
+  "final_rmse": 102825.59514026236,
+  "final_r2": 0.00037749276739085236,
+  "best_method": "ensemble",
+  "target_achieved": false,
+  "model_ranking": [
+    {
+      "name": "Low-LR",
+      "mae": 62330.96484375
+    },
+    {
+      "name": "Best-Seed-2",
+      "mae": 62475.25
+    },
+    {
+      "name": "More-Edges",
+      "mae": 63677.328125
+    },
+    {
+      "name": "Dense-Graph",
+      "mae": 64260.23046875
+    },
+    {
+      "name": "Wider",
+      "mae": 64344.49609375
+    },
+    {
+      "name": "Best-Seed-1",
+      "mae": 64532.61328125
+    },
+    {
+      "name": "Low-Drop",
+      "mae": 66078.125
+    },
+    {
+      "name": "High-LR",
+      "mae": 66136.390625
+    },
+    {
+      "name": "Sparser",
+      "mae": 66550.25
+    },
+    {
+      "name": "Best-Seed-3",
+      "mae": 66668.3828125
+    }
+  ],
+  "ensemble_mae": 61717.96102755874,
+  "best_single_mae": 62330.96484375,
+  "best_single_name": "Low-LR"
+}

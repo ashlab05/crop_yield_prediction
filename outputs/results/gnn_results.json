@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-01-18T22:43:49.666534",
+  "experiment": "GNN_Spatial_Generalization",
+  "train_samples": 24829,
+  "test_samples": 3413,
+  "results": {
+    "MLP_baseline": {
+      "mae": 68309.8671875
+    },
+    "Geographic_GNN": {
+      "mae": 68346.0
+    },
+    "Climate_GNN": {
+      "mae": 68198.0078125
+    }
+  }
+}
