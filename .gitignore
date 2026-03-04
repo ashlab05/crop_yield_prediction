@@ -1,7 +1,6 @@
 .venv/
 __pycache__/
 .DS_Store
-archive/
 outputs/
 saved_models/
 data/
