@@ -92,6 +92,9 @@ body {
   font-weight: 500;
   transition: all 0.2s;
   font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .nav-link:hover {

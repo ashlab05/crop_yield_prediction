@@ -7,6 +7,30 @@ import {
 } from 'recharts'
 import './App.css'
 
+// Clean SVG icon components
+const Icon = ({ d, size = 18, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d={d} />
+  </svg>
+)
+
+const icons = {
+  home: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10',
+  chart: 'M18 20V10 M12 20V4 M6 20v-6',
+  globe: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M2 12h20 M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10A15 15 0 0 1 12 2z',
+  search: 'M11 3a8 8 0 1 0 0 16 8 8 0 0 0 0-16z M21 21l-4.35-4.35',
+  image: 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21',
+  zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8',
+  target: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12z M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z',
+  database: 'M12 2C6.48 2 2 3.79 2 6v12c0 2.21 4.48 4 10 4s10-1.79 10-4V6c0-2.21-4.48-4-10-4z M2 6c0 2.21 4.48 4 10 4s10-1.79 10-4 M2 12c0 2.21 4.48 4 10 4s10-1.79 10-4',
+  cpu: 'M4 4h16v16H4z M9 1v3 M15 1v3 M9 20v3 M15 20v3 M20 9h3 M20 14h3 M1 9h3 M1 14h3',
+  layers: 'M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5',
+  settings: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+  award: 'M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M8.21 13.89L7 23l5-3 5 3-1.21-9.12',
+  gitBranch: 'M6 3v12 M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M18 9a9 9 0 0 1-9 9',
+  leaf: 'M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75',
+}
+
 // ==================== DATA ====================
 const standardModels = [
   { name: 'Random Forest', MAE: 3749, RMSE: 10057, R2: 0.9861, MAPE: 7.82, time: 1.3, color: '#6b7280' },
@@ -96,12 +120,12 @@ function App() {
   })
 
   const sections = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'comparison', label: 'Models' },
-    { id: 'spatial', label: 'Spatial' },
-    { id: 'shap', label: 'SHAP' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'predict', label: 'Predict' },
+    { id: 'overview', label: 'Overview', icon: icons.home },
+    { id: 'comparison', label: 'Models', icon: icons.chart },
+    { id: 'spatial', label: 'Spatial', icon: icons.globe },
+    { id: 'shap', label: 'SHAP', icon: icons.search },
+    { id: 'gallery', label: 'Gallery', icon: icons.image },
+    { id: 'predict', label: 'Predict', icon: icons.zap },
   ]
 
   const handlePredict = () => {
@@ -140,7 +164,10 @@ function App() {
       {/* NAV */}
       <nav className="navbar">
         <div className="navbar-brand">
-          <span className="icon" style={{ WebkitTextFillColor: 'initial' }}>◆</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#brandGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <defs><linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#00d4aa" /><stop offset="100%" stopColor="#3b82f6" /></linearGradient></defs>
+            <path d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5" />
+          </svg>
           HOGM-COATI Dashboard
         </div>
         <div className="nav-links">
@@ -148,6 +175,7 @@ function App() {
             <button key={s.id}
               className={`nav-link ${activeSection === s.id ? 'active' : ''}`}
               onClick={() => scrollTo(s.id)}>
+              <Icon d={s.icon} size={15} />
               {s.label}
             </button>
           ))}
@@ -158,7 +186,7 @@ function App() {
         {/* ===== HERO / OVERVIEW ===== */}
         <section id="overview" className="hero">
           <div className="hero-content">
-            <div className="hero-badge">★ State-of-the-Art Spatial Generalization</div>
+            <div className="hero-badge"><Icon d={icons.award} size={14} color="#00d4aa" /> State-of-the-Art Spatial Generalization</div>
             <h1>
               <span className="highlight">HOGM-COATI</span><br />
               Crop Yield Prediction
@@ -194,20 +222,20 @@ function App() {
 
         {/* ===== ARCHITECTURE ===== */}
         <section className="section">
-          <h2 className="section-title">Architecture Pipeline</h2>
+          <h2 className="section-title"><Icon d={icons.gitBranch} size={22} color="#8b5cf6" /> Architecture Pipeline</h2>
           <p className="section-subtitle">The HOGM-COATI pipeline processes data through these stages</p>
           <div className="arch-flow">
             {[
-              { icon: '01', name: 'Raw Data', desc: '28K samples' },
-              { icon: '02', name: 'Higher-Order Graph', desc: 'Rank-2 cells' },
-              { icon: '03', name: 'CCMamba Encoder', desc: 'Local + Global SSM' },
-              { icon: '04', name: 'APO Optimizer', desc: 'Hyperparameter tuning' },
-              { icon: '05', name: 'COATI Ensemble', desc: 'Weight optimization' },
-              { icon: '06', name: 'Yield Prediction', desc: 'hg/ha output' },
+              { icon: icons.database, name: 'Raw Data', desc: '28K samples' },
+              { icon: icons.layers, name: 'Higher-Order Graph', desc: 'Rank-2 cells' },
+              { icon: icons.cpu, name: 'CCMamba Encoder', desc: 'Local + Global SSM' },
+              { icon: icons.settings, name: 'APO Optimizer', desc: 'Hyperparameters' },
+              { icon: icons.target, name: 'COATI Ensemble', desc: 'Weight opt.' },
+              { icon: icons.leaf, name: 'Yield Prediction', desc: 'hg/ha output' },
             ].map((node, i, arr) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <div className="arch-node">
-                  <div className="node-icon">{node.icon}</div>
+                  <div className="node-icon"><Icon d={node.icon} size={20} color="#8b5cf6" /></div>
                   <div className="node-name">{node.name}</div>
                   <div className="node-desc">{node.desc}</div>
                 </div>
@@ -219,7 +247,7 @@ function App() {
 
         {/* ===== MODEL COMPARISON ===== */}
         <section id="comparison" className="section">
-          <h2 className="section-title">Model Comparison</h2>
+          <h2 className="section-title"><Icon d={icons.chart} size={22} color="#3b82f6" /> Model Comparison</h2>
           <p className="section-subtitle">Standard 80/20 train/test split — 6 models trained on the identical dataset</p>
 
           <div className="toggle-group">
@@ -295,7 +323,7 @@ function App() {
 
         {/* ===== SPATIAL GENERALIZATION ===== */}
         <section id="spatial" className="section">
-          <h2 className="section-title">Spatial Generalization</h2>
+          <h2 className="section-title"><Icon d={icons.globe} size={22} color="#00d4aa" /> Spatial Generalization</h2>
           <p className="section-subtitle">
             Leave-Country-Out (LCO) evaluation — 20% of countries completely hidden during training.
             Models must predict yields for regions they have <em>never seen before</em>.
@@ -370,7 +398,7 @@ function App() {
 
         {/* ===== SHAP ===== */}
         <section id="shap" className="section">
-          <h2 className="section-title">Explainable AI — SHAP Analysis</h2>
+          <h2 className="section-title"><Icon d={icons.search} size={22} color="#8b5cf6" /> Explainable AI — SHAP Analysis</h2>
           <p className="section-subtitle">SHapley Additive exPlanations reveal which features drive model predictions</p>
 
           <div className="chart-container">
@@ -419,7 +447,7 @@ function App() {
 
         {/* ===== GALLERY ===== */}
         <section id="gallery" className="section">
-          <h2 className="section-title">Result Gallery</h2>
+          <h2 className="section-title"><Icon d={icons.image} size={22} color="#3b82f6" /> Result Gallery</h2>
           <p className="section-subtitle">Click any image to view full resolution</p>
           <div className="gallery-grid">
             {[
@@ -443,7 +471,7 @@ function App() {
 
         {/* ===== PREDICTOR ===== */}
         <section id="predict" className="section">
-          <h2 className="section-title">Yield Predictor</h2>
+          <h2 className="section-title"><Icon d={icons.zap} size={22} color="#f59e0b" /> Yield Predictor</h2>
           <p className="section-subtitle">Enter agricultural variables to get an estimated crop yield prediction</p>
 
           <div className="chart-container">
