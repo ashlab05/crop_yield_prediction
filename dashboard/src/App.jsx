@@ -96,12 +96,12 @@ function App() {
   })
 
   const sections = [
-    { id: 'overview', label: '🏠 Overview' },
-    { id: 'comparison', label: '📊 Models' },
-    { id: 'spatial', label: '🌍 Spatial' },
-    { id: 'shap', label: '🔍 SHAP' },
-    { id: 'gallery', label: '📈 Gallery' },
-    { id: 'predict', label: '🔮 Predict' },
+    { id: 'overview', label: 'Overview' },
+    { id: 'comparison', label: 'Models' },
+    { id: 'spatial', label: 'Spatial' },
+    { id: 'shap', label: 'SHAP' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'predict', label: 'Predict' },
   ]
 
   const handlePredict = () => {
@@ -140,7 +140,7 @@ function App() {
       {/* NAV */}
       <nav className="navbar">
         <div className="navbar-brand">
-          <span className="icon">🌾</span>
+          <span className="icon" style={{ WebkitTextFillColor: 'initial' }}>◆</span>
           HOGM-COATI Dashboard
         </div>
         <div className="nav-links">
@@ -158,7 +158,7 @@ function App() {
         {/* ===== HERO / OVERVIEW ===== */}
         <section id="overview" className="hero">
           <div className="hero-content">
-            <div className="hero-badge">🏆 State-of-the-Art Spatial Generalization</div>
+            <div className="hero-badge">★ State-of-the-Art Spatial Generalization</div>
             <h1>
               <span className="highlight">HOGM-COATI</span><br />
               Crop Yield Prediction
@@ -194,16 +194,16 @@ function App() {
 
         {/* ===== ARCHITECTURE ===== */}
         <section className="section">
-          <h2 className="section-title">🧬 Architecture Pipeline</h2>
+          <h2 className="section-title">Architecture Pipeline</h2>
           <p className="section-subtitle">The HOGM-COATI pipeline processes data through these stages</p>
           <div className="arch-flow">
             {[
-              { icon: '📊', name: 'Raw Data', desc: '28K samples' },
-              { icon: '🔗', name: 'Higher-Order Graph', desc: 'Rank-2 cells' },
-              { icon: '🧠', name: 'CCMamba Encoder', desc: 'Local + Global SSM' },
-              { icon: '⚡', name: 'APO Optimizer', desc: 'Hyperparameter tuning' },
-              { icon: '🎯', name: 'COATI Ensemble', desc: 'Weight optimization' },
-              { icon: '🌾', name: 'Yield Prediction', desc: 'hg/ha output' },
+              { icon: '01', name: 'Raw Data', desc: '28K samples' },
+              { icon: '02', name: 'Higher-Order Graph', desc: 'Rank-2 cells' },
+              { icon: '03', name: 'CCMamba Encoder', desc: 'Local + Global SSM' },
+              { icon: '04', name: 'APO Optimizer', desc: 'Hyperparameter tuning' },
+              { icon: '05', name: 'COATI Ensemble', desc: 'Weight optimization' },
+              { icon: '06', name: 'Yield Prediction', desc: 'hg/ha output' },
             ].map((node, i, arr) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <div className="arch-node">
@@ -219,7 +219,7 @@ function App() {
 
         {/* ===== MODEL COMPARISON ===== */}
         <section id="comparison" className="section">
-          <h2 className="section-title">📊 Model Comparison</h2>
+          <h2 className="section-title">Model Comparison</h2>
           <p className="section-subtitle">Standard 80/20 train/test split — 6 models trained on the identical dataset</p>
 
           <div className="toggle-group">
@@ -279,7 +279,7 @@ function App() {
               <tbody>
                 {standardModels.map((m, i) => (
                   <tr key={m.name} className={m.name === 'HOGM-APO' ? 'highlight-row' : ''}>
-                    <td>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</td>
+                    <td style={{ fontWeight: 700 }}>{i + 1}</td>
                     <td style={{ fontWeight: m.name === 'HOGM-APO' ? 700 : 400 }}>{m.name}</td>
                     <td>{m.MAE.toLocaleString()}</td>
                     <td>{m.RMSE.toLocaleString()}</td>
@@ -295,7 +295,7 @@ function App() {
 
         {/* ===== SPATIAL GENERALIZATION ===== */}
         <section id="spatial" className="section">
-          <h2 className="section-title">🌍 Spatial Generalization</h2>
+          <h2 className="section-title">Spatial Generalization</h2>
           <p className="section-subtitle">
             Leave-Country-Out (LCO) evaluation — 20% of countries completely hidden during training.
             Models must predict yields for regions they have <em>never seen before</em>.
@@ -336,30 +336,30 @@ function App() {
 
           {/* Inferences */}
           <div className="inference-card">
-            <h3>💡 Why Each Model Performs This Way</h3>
+            <h3>Why Each Model Performs This Way</h3>
             <div className="inference-item">
-              <div className="inference-icon rf">🌲</div>
+              <div className="inference-icon rf">RF</div>
               <div className="inference-text">
                 <h4>Random Forest (R² = 0.685)</h4>
                 <p>Completely collapses. It relies on country_id binary splits. When encountering a new country ID it has never seen, it loses its primary deterministic branch and performance tanks from 0.98 → 0.68.</p>
               </div>
             </div>
             <div className="inference-item">
-              <div className="inference-icon ann">🧮</div>
+              <div className="inference-icon ann">AN</div>
               <div className="inference-text">
                 <h4>ANN-COATI (R² = 0.774)</h4>
                 <p>Performs well by learning general mathematical relationships between numeric features (rainfall, pesticides) and yield. However, it still treats each unseen country as an isolated island.</p>
               </div>
             </div>
             <div className="inference-item">
-              <div className="inference-icon hogm">📈</div>
+              <div className="inference-icon hogm">HG</div>
               <div className="inference-text">
                 <h4>HOGM-APO Graph Only (R² = 0.701)</h4>
                 <p>Builds a Transductive Climate-Crop k-NN Graph. Draws edges between unseen and known countries based on similar weather and crop types. Literally borrows historical data from neighboring nodes.</p>
               </div>
             </div>
             <div className="inference-item">
-              <div className="inference-icon ens">🏆</div>
+              <div className="inference-icon ens">★</div>
               <div className="inference-text">
                 <h4>HOGM-COATI Ensemble (R² = 0.782) — Winner</h4>
                 <p>Blends the numerical mapping power of ANN-COATI with the spatial graph routing power of HOGM-APO using the COATI Ensemble Weight Optimizer. Mathematically guarantees the highest possible predictive accuracy.</p>
@@ -370,7 +370,7 @@ function App() {
 
         {/* ===== SHAP ===== */}
         <section id="shap" className="section">
-          <h2 className="section-title">🔍 Explainable AI — SHAP Analysis</h2>
+          <h2 className="section-title">Explainable AI — SHAP Analysis</h2>
           <p className="section-subtitle">SHapley Additive exPlanations reveal which features drive model predictions</p>
 
           <div className="chart-container">
@@ -419,7 +419,7 @@ function App() {
 
         {/* ===== GALLERY ===== */}
         <section id="gallery" className="section">
-          <h2 className="section-title">📈 Result Gallery</h2>
+          <h2 className="section-title">Result Gallery</h2>
           <p className="section-subtitle">Click any image to view full resolution</p>
           <div className="gallery-grid">
             {[
@@ -443,7 +443,7 @@ function App() {
 
         {/* ===== PREDICTOR ===== */}
         <section id="predict" className="section">
-          <h2 className="section-title">🔮 Yield Predictor</h2>
+          <h2 className="section-title">Yield Predictor</h2>
           <p className="section-subtitle">Enter agricultural variables to get an estimated crop yield prediction</p>
 
           <div className="chart-container">
@@ -477,7 +477,7 @@ function App() {
                 <input type="number" step="0.1" value={formData.temperature} onChange={e => setFormData({ ...formData, temperature: +e.target.value })} min={-10} max={50} />
               </div>
               <button className="predict-btn" onClick={handlePredict}>
-                🌾 Predict Crop Yield
+                Predict Crop Yield
               </button>
             </div>
 
