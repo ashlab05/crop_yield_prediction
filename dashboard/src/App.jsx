@@ -3,7 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   ResponsiveContainer, Legend, Cell, LineChart, Line,
-  ScatterChart, Scatter, ZAxis
+  ScatterChart, Scatter, ZAxis, PieChart, Pie
 } from 'recharts'
 import './App.css'
 
@@ -33,12 +33,30 @@ const icons = {
 
 // ==================== DATA ====================
 const standardModels = [
-  { name: 'Random Forest', MAE: 3749, RMSE: 10057, R2: 0.9861, MAPE: 7.82, time: 1.3, color: '#6b7280' },
-  { name: 'XGBoost', MAE: 5238, RMSE: 10900, R2: 0.9836, MAPE: 13.09, time: 0.4, color: '#3b82f6' },
-  { name: 'HOGM-APO', MAE: 7594, RMSE: 15007, R2: 0.969, MAPE: 11.9, time: 406.7, color: '#ef4444' },
-  { name: 'MLP', MAE: 14026, RMSE: 26550, R2: 0.9028, MAPE: 23.85, time: 12.3, color: '#8b5cf6' },
-  { name: 'GCN', MAE: 15528, RMSE: 28022, R2: 0.8917, MAPE: 28.77, time: 9.2, color: '#f59e0b' },
-  { name: 'Graph-Mamba', MAE: 15996, RMSE: 29325, R2: 0.8814, MAPE: 22.31, time: 21.4, color: '#ec4899' },
+  {
+    name: 'Random Forest', MAE: 3749, RMSE: 10057, R2: 0.9861, MAPE: 7.82, time: 1.3, color: '#6b7280',
+    Accuracy: 92.18, Precision: 0.9475, Recall: 0.9604, F1: 0.9539, ROC_AUC: 0.9545
+  },
+  {
+    name: 'XGBoost', MAE: 5238, RMSE: 10900, R2: 0.9836, MAPE: 13.09, time: 0.4, color: '#3b82f6',
+    Accuracy: 86.91, Precision: 0.9192, Recall: 0.9407, F1: 0.9298, ROC_AUC: 0.9274
+  },
+  {
+    name: 'HOGM-APO', MAE: 7594, RMSE: 15007, R2: 0.969, MAPE: 11.9, time: 406.7, color: '#ef4444',
+    Accuracy: 88.10, Precision: 0.9113, Recall: 0.9306, F1: 0.9209, ROC_AUC: 0.9268
+  },
+  {
+    name: 'MLP', MAE: 14026, RMSE: 26550, R2: 0.9028, MAPE: 23.85, time: 12.3, color: '#8b5cf6',
+    Accuracy: 76.15, Precision: 0.7951, Recall: 0.8310, F1: 0.8127, ROC_AUC: 0.8437
+  },
+  {
+    name: 'GCN', MAE: 15528, RMSE: 28022, R2: 0.8917, MAPE: 28.77, time: 9.2, color: '#f59e0b',
+    Accuracy: 71.23, Precision: 0.7634, Recall: 0.8062, F1: 0.7842, ROC_AUC: 0.8176
+  },
+  {
+    name: 'Graph-Mamba', MAE: 15996, RMSE: 29325, R2: 0.8814, MAPE: 22.31, time: 21.4, color: '#ec4899',
+    Accuracy: 77.69, Precision: 0.7831, Recall: 0.8159, F1: 0.7991, ROC_AUC: 0.8424
+  },
 ]
 
 const spatialModels = [
@@ -51,8 +69,18 @@ const spatialModels = [
 const radarData = standardModels.map(m => ({
   name: m.name,
   R2: m.R2 * 100,
-  Accuracy: (1 - m.MAPE / 100) * 100,
+  Accuracy: m.Accuracy,
   Speed: Math.max(0, 100 - m.time / 4.07),
+}))
+
+const comprehensiveRadarData = standardModels.map(m => ({
+  name: m.name,
+  Accuracy: m.Accuracy / 100,
+  Precision: m.Precision,
+  Recall: m.Recall,
+  F1: m.F1,
+  ROC_AUC: m.ROC_AUC,
+  R2: m.R2,
 }))
 
 const shapFeatures = [
@@ -112,6 +140,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 function App() {
   const [activeSection, setActiveSection] = useState('overview')
   const [metric, setMetric] = useState('R2')
+  const [classMetric, setClassMetric] = useState('Accuracy')
   const [lightbox, setLightbox] = useState(null)
   const [prediction, setPrediction] = useState(null)
   const [formData, setFormData] = useState({
@@ -122,6 +151,7 @@ function App() {
   const sections = [
     { id: 'overview', label: 'Overview', icon: icons.home },
     { id: 'comparison', label: 'Models', icon: icons.chart },
+    { id: 'metrics', label: 'Metrics', icon: icons.target },
     { id: 'spatial', label: 'Spatial', icon: icons.globe },
     { id: 'shap', label: 'SHAP', icon: icons.search },
     { id: 'gallery', label: 'Gallery', icon: icons.image },
@@ -321,6 +351,102 @@ function App() {
           </div>
         </section>
 
+        {/* ===== ALL METRICS ===== */}
+        <section id="metrics" className="section">
+          <h2 className="section-title"><Icon d={icons.target} size={22} color="#00d4aa" /> All Metrics</h2>
+          <p className="section-subtitle">Comprehensive evaluation — regression and classification-equivalent metrics across all 6 models</p>
+
+          <div className="toggle-group">
+            {['Accuracy', 'Precision', 'Recall', 'F1', 'ROC_AUC'].map(m => (
+              <button key={m}
+                className={`toggle-btn ${classMetric === m ? 'active' : ''}`}
+                onClick={() => setClassMetric(m)}>
+                {m === 'ROC_AUC' ? 'ROC AUC' : m === 'F1' ? 'F1 Score' : m}
+              </button>
+            ))}
+          </div>
+
+          <div className="charts-row">
+            <div className="chart-container">
+              <div className="chart-title">{classMetric === 'ROC_AUC' ? 'ROC AUC' : classMetric === 'F1' ? 'F1 Score' : classMetric} by Model</div>
+              <div className="chart-desc">Click any metric toggle above to switch</div>
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart data={standardModels} layout="vertical" margin={{ left: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2a3e" />
+                  <XAxis type="number" stroke="#6b7280" fontSize={12} domain={classMetric === 'Accuracy' ? [60, 100] : [0.7, 1]} />
+                  <YAxis type="category" dataKey="name" stroke="#6b7280" fontSize={12} width={100} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey={classMetric} name={classMetric === 'ROC_AUC' ? 'ROC AUC' : classMetric} radius={[0, 6, 6, 0]} animationDuration={800}>
+                    {standardModels.map((m, i) => <Cell key={i} fill={m.color} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="chart-container">
+              <div className="chart-title">Comprehensive Metric Radar</div>
+              <div className="chart-desc">All 6 key metrics normalized to 0–1 scale</div>
+              <ResponsiveContainer width="100%" height={350}>
+                <RadarChart data={[
+                  { metric: 'Accuracy', ...Object.fromEntries(standardModels.map(m => [m.name, m.Accuracy / 100])) },
+                  { metric: 'Precision', ...Object.fromEntries(standardModels.map(m => [m.name, m.Precision])) },
+                  { metric: 'Recall', ...Object.fromEntries(standardModels.map(m => [m.name, m.Recall])) },
+                  { metric: 'F1 Score', ...Object.fromEntries(standardModels.map(m => [m.name, m.F1])) },
+                  { metric: 'ROC AUC', ...Object.fromEntries(standardModels.map(m => [m.name, m.ROC_AUC])) },
+                  { metric: 'R²', ...Object.fromEntries(standardModels.map(m => [m.name, m.R2])) },
+                ]}>
+                  <PolarGrid stroke="#2a2a3e" />
+                  <PolarAngleAxis dataKey="metric" stroke="#6b7280" fontSize={10} />
+                  <PolarRadiusAxis stroke="#2a2a3e" fontSize={10} domain={[0.6, 1]} />
+                  {standardModels.slice(0, 3).map(m => (
+                    <Radar key={m.name} name={m.name} dataKey={m.name} stroke={m.color} fill={m.color} fillOpacity={0.1} />
+                  ))}
+                  <Legend />
+                  <Tooltip content={<CustomTooltip />} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Full All-Metrics Table */}
+          <div className="chart-container">
+            <div className="chart-title">Complete Metrics Table — All 10 Metrics</div>
+            <div style={{ overflowX: 'auto' }}>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th><th>Model</th><th>Accuracy ↑</th><th>F1 Score ↑</th>
+                    <th>Precision ↑</th><th>Recall ↑</th><th>ROC AUC ↑</th>
+                    <th>R² ↑</th><th>MAE ↓</th><th>RMSE ↓</th><th>MAPE ↓</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {standardModels
+                    .slice()
+                    .sort((a, b) => b.Accuracy - a.Accuracy)
+                    .map((m, i) => (
+                      <tr key={m.name} className={m.name === 'HOGM-APO' ? 'highlight-row' : ''}>
+                        <td style={{ fontWeight: 700 }}>
+                          {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}
+                        </td>
+                        <td style={{ fontWeight: m.name === 'HOGM-APO' ? 700 : 400, color: m.color }}>{m.name}</td>
+                        <td style={{ fontWeight: 700 }}>{m.Accuracy.toFixed(2)}%</td>
+                        <td>{m.F1.toFixed(4)}</td>
+                        <td>{m.Precision.toFixed(4)}</td>
+                        <td>{m.Recall.toFixed(4)}</td>
+                        <td>{m.ROC_AUC.toFixed(4)}</td>
+                        <td>{m.R2.toFixed(4)}</td>
+                        <td>{m.MAE.toLocaleString()}</td>
+                        <td>{m.RMSE.toLocaleString()}</td>
+                        <td>{m.MAPE.toFixed(2)}%</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         {/* ===== SPATIAL GENERALIZATION ===== */}
         <section id="spatial" className="section">
           <h2 className="section-title"><Icon d={icons.globe} size={22} color="#00d4aa" /> Spatial Generalization</h2>
@@ -451,6 +577,24 @@ function App() {
           <p className="section-subtitle">Click any image to view full resolution</p>
           <div className="gallery-grid">
             {[
+              { src: '/images/model_ranking_summary.png', caption: 'Model Ranking Summary — All Metrics' },
+              { src: '/images/metrics_heatmap.png', caption: 'Comprehensive Metrics Heatmap' },
+              { src: '/images/metric_bar_accuracy.png', caption: 'Accuracy Score Comparison' },
+              { src: '/images/metric_bar_f1_score.png', caption: 'F1 Score Comparison' },
+              { src: '/images/metric_bar_precision.png', caption: 'Precision Comparison' },
+              { src: '/images/metric_bar_recall.png', caption: 'Recall Comparison' },
+              { src: '/images/metric_bar_roc_auc.png', caption: 'ROC AUC Comparison' },
+              { src: '/images/metric_bar_r2.png', caption: 'R² Score Comparison' },
+              { src: '/images/metric_bar_mae.png', caption: 'MAE Comparison' },
+              { src: '/images/metric_bar_rmse.png', caption: 'RMSE Comparison' },
+              { src: '/images/metric_bar_mape.png', caption: 'MAPE Comparison' },
+              { src: '/images/accuracy_comparison.png', caption: 'Accuracy Score — All Models' },
+              { src: '/images/f1_precision_recall.png', caption: 'F1, Precision & Recall Comparison' },
+              { src: '/images/all_metrics_grouped_bar.png', caption: 'All Classification Metrics Grouped' },
+              { src: '/images/roc_auc_curve.png', caption: 'ROC AUC — Prediction Quality Curves' },
+              { src: '/images/comprehensive_radar.png', caption: 'Comprehensive Metric Radar' },
+              { src: '/images/r2_comparison.png', caption: 'R² Score — All Models' },
+              { src: '/images/mae_rmse_comparison.png', caption: 'MAE & RMSE Error Comparison' },
               { src: '/images/spatial_generalization_bar.png', caption: 'Spatial Generalization — Zero-Shot' },
               { src: '/images/model_comparison_bar.png', caption: 'Model Comparison — Standard Split' },
               { src: '/images/prediction_scatter.png', caption: 'Predicted vs Actual Values' },

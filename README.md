@@ -28,6 +28,21 @@
 
 > **Our proposed HOGM-COATI Ensemble is the undisputed #1 model for predicting crop yields in never-before-seen countries.**
 
+### 🎯 All Metrics — Complete Evaluation
+
+| Model | Accuracy ↑ | F1 Score ↑ | Precision ↑ | Recall ↑ | ROC AUC ↑ | R² ↑ | MAE ↓ | MAPE ↓ |
+|:------|:---------:|:---------:|:----------:|:-------:|:--------:|:----:|------:|------:|
+| 🥇 Random Forest | **92.18%** | **0.9539** | **0.9475** | **0.9604** | **0.9545** | **0.986** | **3,749** | **7.82%** |
+| 🥈 HOGM-APO (Proposed) | 88.10% | 0.9209 | 0.9113 | 0.9306 | 0.9268 | 0.969 | 7,594 | 11.90% |
+| 🥉 XGBoost | 86.91% | 0.9298 | 0.9192 | 0.9407 | 0.9274 | 0.984 | 5,238 | 13.09% |
+| Graph-Mamba | 77.69% | 0.7991 | 0.7831 | 0.8159 | 0.8424 | 0.881 | 15,996 | 22.31% |
+| MLP | 76.15% | 0.8127 | 0.7951 | 0.8310 | 0.8437 | 0.903 | 14,026 | 23.85% |
+| GCN | 71.23% | 0.7842 | 0.7634 | 0.8062 | 0.8176 | 0.892 | 15,528 | 28.77% |
+
+<p align="center">
+  <img src="results/metrics_heatmap.png" width="700" alt="All Metrics Heatmap"/>
+</p>
+
 <p align="center">
   <img src="results/spatial_generalization_bar.png" width="700" alt="Spatial Generalization Results"/>
 </p>
@@ -69,21 +84,71 @@ For spatial generalization, we build a **25-neighbor climate-crop similarity gra
 
 ## 📊 Visualizations
 
+### Model Ranking Summary
+<p align="center">
+  <img src="results/model_ranking_summary.png" width="800" alt="Model Ranking Summary"/>
+</p>
+
+### Accuracy Comparison
+<p align="center">
+  <img src="results/metric_bar_accuracy.png" width="700" alt="Accuracy Bar Chart"/>
+  <img src="results/accuracy_comparison.png" width="700" alt="Accuracy Horizontal Comparison"/>
+</p>
+
+### F1, Precision & Recall
+<p align="center">
+  <img src="results/f1_precision_recall.png" width="700" alt="F1, Precision & Recall Grouped"/>
+  <img src="results/metric_bar_f1_score.png" width="700" alt="F1 Score Bar Chart"/>
+  <img src="results/metric_bar_precision.png" width="700" alt="Precision Bar Chart"/>
+  <img src="results/metric_bar_recall.png" width="700" alt="Recall Bar Chart"/>
+</p>
+
+### Comprehensive Metric Radar
+<p align="center">
+  <img src="results/comprehensive_radar.png" width="700" alt="Comprehensive Metric Radar"/>
+</p>
+
+### All Classification Metrics
+<p align="center">
+  <img src="results/all_metrics_grouped_bar.png" width="700" alt="All Classification Metrics Grouped"/>
+</p>
+
+### ROC AUC — Prediction Quality Curves
+<p align="center">
+  <img src="results/roc_auc_curve.png" width="700" alt="ROC AUC Curves"/>
+  <img src="results/metric_bar_roc_auc.png" width="700" alt="ROC AUC Bar Chart"/>
+</p>
+
+### Regression Metrics (R², MAE, RMSE, MAPE)
+<p align="center">
+  <img src="results/r2_comparison.png" width="700" alt="R² Score Grouped"/>
+  <img src="results/metric_bar_r2.png" width="700" alt="R² Score Bar Chart"/>
+  <img src="results/mae_rmse_comparison.png" width="700" alt="MAE & RMSE Grouped"/>
+  <img src="results/metric_bar_mae.png" width="700" alt="MAE Bar Chart"/>
+  <img src="results/metric_bar_rmse.png" width="700" alt="RMSE Bar Chart"/>
+  <img src="results/metric_bar_mape.png" width="700" alt="MAPE Bar Chart"/>
+</p>
+
+### Standard Model Comparison
 <p align="center">
   <img src="results/model_comparison_bar.png" width="700" alt="Model Comparison"/>
 </p>
 
+### Predicted vs Actual
 <p align="center">
   <img src="results/prediction_scatter.png" width="700" alt="Predicted vs Actual"/>
 </p>
 
+### Training Curves
 <p align="center">
   <img src="results/training_curves.png" width="700" alt="Training Curves"/>
 </p>
 
+### APO Convergence
 <p align="center">
   <img src="results/apo_convergence.png" width="500" alt="APO Convergence"/>
 </p>
+
 
 ---
 
@@ -127,10 +192,17 @@ crop_yield_prediction/
 │   ├── apo_optimizer.py              # Artificial Protozoa Optimizer
 │   └── metrics.py                    # MAE, RMSE, R², MAPE
 │
+├── generate_all_metrics.py            # Generates all metrics + visualizations
+│
 ├── data/                              # Dataset (not tracked)
 │   └── yield_df.csv                   # FAO dataset (28,243 rows)
 │
 ├── results/                           # Generated plots and metrics
+│   ├── all_metrics.json               # All 10 metrics (Accuracy, F1, Precision, Recall, ROC AUC + regression)
+│   ├── metrics_heatmap.png            # Comprehensive metrics heatmap
+│   ├── comprehensive_radar.png        # All-metric radar chart
+│   ├── precision_recall_chart.png     # Precision, Recall & F1 bar chart
+│   ├── roc_auc_curve.png              # ROC AUC prediction quality curves
 │   ├── spatial_generalization_bar.png # Zero-shot spatial results
 │   ├── model_comparison_bar.png       # Standard eval comparison
 │   ├── prediction_scatter.png         # Predicted vs Actual
@@ -138,7 +210,7 @@ crop_yield_prediction/
 │   ├── apo_convergence.png            # APO optimization
 │   ├── shap_summary.png              # SHAP beeswarm plot
 │   ├── shap_comparison.png           # RF vs HOGM-APO feature importance
-│   └── results.json                   # Raw metrics JSON
+│   └── results.json                   # Raw regression metrics JSON
 │
 ├── saved_models/                      # Trained model weights (.keras)
 ├── notebooks/                         # Jupyter notebooks
@@ -236,4 +308,4 @@ If you use this work, please cite:
 
 ---
 
-*Last Updated: March 4, 2026*
+*Last Updated: March 10, 2026*
