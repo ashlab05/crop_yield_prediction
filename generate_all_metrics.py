@@ -13,12 +13,11 @@ Plots (IEEE-grade):
   1. metrics_heatmap.png          — Full metrics heatmap (all models × all metrics)
   2. accuracy_comparison.png      — Accuracy score comparison bar chart
   3. f1_precision_recall.png      — F1, Precision, Recall grouped bar chart
-  4. roc_auc_curve.png            — ROC AUC prediction quality curves
-  5. comprehensive_radar.png      — 6-axis radar chart all models
-  6. mae_rmse_comparison.png      — MAE & RMSE error comparison
-  7. r2_comparison.png            — R² score comparison
-  8. all_metrics_grouped_bar.png  — All classification metrics side-by-side
-  9. model_ranking_summary.png    — Overall model ranking summary
+  4. comprehensive_radar.png      — 5-axis radar chart all models
+  5. mae_rmse_comparison.png      — MAE & RMSE error comparison
+  6. r2_comparison.png            — R² score comparison
+  7. all_metrics_grouped_bar.png  — All classification metrics side-by-side
+  8. model_ranking_summary.png    — Overall model ranking summary
 """
 
 import json
@@ -77,14 +76,12 @@ def compute_classification_metrics(models):
             f1 = 2 * (precision * recall) / (precision + recall)
         else:
             f1 = 0.0
-        roc_auc = min(0.99, 0.5 + (r2 * (1 - mape / 100)) / 2)
         results[name] = {
             **m,
             "Accuracy": round(accuracy, 2),
             "Precision": round(precision, 4),
             "Recall": round(recall, 4),
             "F1_Score": round(f1, 4),
-            "ROC_AUC": round(roc_auc, 4),
         }
     return results
 
@@ -138,14 +135,14 @@ plt.rcParams.update({
 # =============================================================================
 def plot_metrics_heatmap(all_metrics, output_path):
     model_names = list(all_metrics.keys())
-    metric_names = ['Accuracy', 'F1_Score', 'Precision', 'Recall', 'ROC_AUC', 'R2', 'MAE', 'RMSE', 'MAPE']
-    display_names = ['Accuracy\n(%)', 'F1\nScore', 'Precision', 'Recall', 'ROC\nAUC', 'R²', 'MAE\n(↓)', 'RMSE\n(↓)', 'MAPE\n(% ↓)']
+    metric_names = ['Accuracy', 'F1_Score', 'Precision', 'Recall', 'R2', 'MAE', 'RMSE', 'MAPE']
+    display_names = ['Accuracy\n(%)', 'F1\nScore', 'Precision', 'Recall', 'R²', 'MAE\n(↓)', 'RMSE\n(↓)', 'MAPE\n(% ↓)']
 
     data = np.array([[all_metrics[m][met] for met in metric_names] for m in model_names])
 
     # Normalize: higher-is-better for most, lower-is-better for MAE/RMSE/MAPE
     data_norm = np.zeros_like(data)
-    higher_better = [True, True, True, True, True, True, False, False, False]
+    higher_better = [True, True, True, True, True, False, False, False]
     for j in range(data.shape[1]):
         col = data[:, j]
         mn, mx = col.min(), col.max()
@@ -281,46 +278,11 @@ def plot_f1_precision_recall(all_metrics, output_path):
 
 
 # =============================================================================
-# PLOT 4: ROC AUC Curves
-# =============================================================================
-def plot_roc_auc_curve(all_metrics, output_path):
-    fig, ax = plt.subplots(figsize=(10, 8))
-    thresholds = np.linspace(0, 50, 200)
-
-    for name, m in all_metrics.items():
-        mape = m["MAPE"]
-        r2 = m["R2"]
-        steepness = 1 / (mape / 10 + 0.1)
-        midpoint = mape * 0.8
-        tpr = 1 / (1 + np.exp(-steepness * (thresholds - midpoint)))
-        tpr = tpr * min(1.0, r2 * 1.02)
-        color = MODEL_COLORS[name]
-        ax.plot(thresholds / 50, tpr, linewidth=2.5, color=color,
-                label=f'{name} (AUC = {m["ROC_AUC"]:.4f})', alpha=0.9)
-
-    ax.plot([0, 1], [0, 1], 'w--', alpha=0.3, linewidth=1, label='Random Baseline (0.500)')
-    ax.fill_between([0, 1], [0, 1], alpha=0.05, color='white')
-
-    ax.set_xlabel('Error Tolerance (Normalized)', fontsize=13, fontweight='bold', labelpad=10)
-    ax.set_ylabel('True Positive Rate', fontsize=13, fontweight='bold', labelpad=10)
-    ax.set_title('ROC AUC — Prediction Quality Curves', fontsize=16, fontweight='bold', pad=15)
-    ax.legend(loc='lower right', fontsize=11)
-    ax.grid(True, alpha=0.3)
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1.05)
-
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=200, bbox_inches='tight', facecolor=DARK_BG)
-    plt.close()
-    print(f"  ✓ {output_path}")
-
-
-# =============================================================================
-# PLOT 5: Comprehensive Radar (All 6 Models)
+# PLOT 4: Comprehensive Radar (All 6 Models)
 # =============================================================================
 def plot_comprehensive_radar(all_metrics, output_path):
-    categories = ['Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC AUC', 'R²']
-    keys = ['Accuracy', 'Precision', 'Recall', 'F1_Score', 'ROC_AUC', 'R2']
+    categories = ['Accuracy', 'Precision', 'Recall', 'F1 Score', 'R²']
+    keys = ['Accuracy', 'Precision', 'Recall', 'F1_Score', 'R2']
     N = len(categories)
     angles = [n / float(N) * 2 * np.pi for n in range(N)]
     angles += angles[:1]
@@ -434,9 +396,9 @@ def plot_r2_comparison(all_metrics, output_path):
 # =============================================================================
 def plot_all_classification_metrics(all_metrics, output_path):
     names = list(all_metrics.keys())
-    metrics = ['Accuracy', 'Precision', 'Recall', 'F1_Score', 'ROC_AUC']
-    display = ['Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC AUC']
-    met_colors = ['#00d4aa', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899']
+    metrics = ['Accuracy', 'Precision', 'Recall', 'F1_Score']
+    display = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
+    met_colors = ['#00d4aa', '#3b82f6', '#8b5cf6', '#f59e0b']
 
     x = np.arange(len(names))
     n_metrics = len(metrics)
@@ -482,7 +444,6 @@ def plot_model_ranking_summary(all_metrics, output_path):
         ('F1 Score', 'F1_Score', True, '%.4f'),
         ('Precision', 'Precision', True, '%.4f'),
         ('Recall', 'Recall', True, '%.4f'),
-        ('ROC AUC', 'ROC_AUC', True, '%.4f'),
         ('R² Score', 'R2', True, '%.4f'),
     ]
 
@@ -528,7 +489,6 @@ def plot_individual_metrics(all_metrics, output_dir):
         ('F1_Score', 'F1 Score', True, '{:.4f}', [0.7, 1.05]),
         ('Precision', 'Precision', True, '{:.4f}', [0.7, 1.05]),
         ('Recall', 'Recall', True, '{:.4f}', [0.7, 1.05]),
-        ('ROC_AUC', 'ROC AUC', True, '{:.4f}', [0.8, 1.05]),
         ('R2', 'R² Score', True, '{:.4f}', [0.85, 1.05]),
         ('MAE', 'MAE (Lower is Better)', False, '{:,.0f}', None),
         ('RMSE', 'RMSE (Lower is Better)', False, '{:,.0f}', None),
@@ -593,7 +553,6 @@ if __name__ == "__main__":
         print(f"    Precision: {m['Precision']:.4f}")
         print(f"    Recall:    {m['Recall']:.4f}")
         print(f"    F1 Score:  {m['F1_Score']:.4f}")
-        print(f"    ROC AUC:   {m['ROC_AUC']:.4f}")
 
     # 2. Save metrics JSON
     os.makedirs("results", exist_ok=True)
@@ -607,7 +566,6 @@ if __name__ == "__main__":
     plot_metrics_heatmap(all_metrics, "results/metrics_heatmap.png")
     plot_accuracy_comparison(all_metrics, "results/accuracy_comparison.png")
     plot_f1_precision_recall(all_metrics, "results/f1_precision_recall.png")
-    plot_roc_auc_curve(all_metrics, "results/roc_auc_curve.png")
     plot_comprehensive_radar(all_metrics, "results/comprehensive_radar.png")
     plot_mae_rmse(all_metrics, "results/mae_rmse_comparison.png")
     plot_r2_comparison(all_metrics, "results/r2_comparison.png")

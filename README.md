@@ -30,14 +30,14 @@
 
 ### 🎯 All Metrics — Complete Evaluation
 
-| Model | Accuracy ↑ | F1 Score ↑ | Precision ↑ | Recall ↑ | ROC AUC ↑ | R² ↑ | MAE ↓ | MAPE ↓ |
-|:------|:---------:|:---------:|:----------:|:-------:|:--------:|:----:|------:|------:|
-| 🥇 Random Forest | **92.18%** | **0.9539** | **0.9475** | **0.9604** | **0.9545** | **0.986** | **3,749** | **7.82%** |
-| 🥈 HOGM-APO (Proposed) | 88.10% | 0.9209 | 0.9113 | 0.9306 | 0.9268 | 0.969 | 7,594 | 11.90% |
-| 🥉 XGBoost | 86.91% | 0.9298 | 0.9192 | 0.9407 | 0.9274 | 0.984 | 5,238 | 13.09% |
-| Graph-Mamba | 77.69% | 0.7991 | 0.7831 | 0.8159 | 0.8424 | 0.881 | 15,996 | 22.31% |
-| MLP | 76.15% | 0.8127 | 0.7951 | 0.8310 | 0.8437 | 0.903 | 14,026 | 23.85% |
-| GCN | 71.23% | 0.7842 | 0.7634 | 0.8062 | 0.8176 | 0.892 | 15,528 | 28.77% |
+| Model | Accuracy ↑ | F1 Score ↑ | Precision ↑ | Recall ↑ | R² ↑ | MAE ↓ | MAPE ↓ |
+|:------|:---------:|:---------:|:----------:|:-------:|:----:|------:|------:|
+| 🥇 Random Forest | **92.18%** | **0.9539** | **0.9475** | **0.9604** | **0.986** | **3,749** | **7.82%** |
+| 🥈 HOGM-APO (Proposed) | 88.10% | 0.9209 | 0.9113 | 0.9306 | 0.969 | 7,594 | 11.90% |
+| 🥉 XGBoost | 86.91% | 0.9298 | 0.9192 | 0.9407 | 0.984 | 5,238 | 13.09% |
+| Graph-Mamba | 77.69% | 0.7991 | 0.7831 | 0.8159 | 0.881 | 15,996 | 22.31% |
+| MLP | 76.15% | 0.8127 | 0.7951 | 0.8310 | 0.903 | 14,026 | 23.85% |
+| GCN | 71.23% | 0.7842 | 0.7634 | 0.8062 | 0.892 | 15,528 | 28.77% |
 
 <p align="center">
   <img src="results/metrics_heatmap.png" width="700" alt="All Metrics Heatmap"/>
@@ -113,11 +113,8 @@ For spatial generalization, we build a **25-neighbor climate-crop similarity gra
   <img src="results/all_metrics_grouped_bar.png" width="700" alt="All Classification Metrics Grouped"/>
 </p>
 
-### ROC AUC — Prediction Quality Curves
-<p align="center">
-  <img src="results/roc_auc_curve.png" width="700" alt="ROC AUC Curves"/>
-  <img src="results/metric_bar_roc_auc.png" width="700" alt="ROC AUC Bar Chart"/>
-</p>
+### ROC AUC
+<!-- REMOVED -->
 
 ### Regression Metrics (R², MAE, RMSE, MAPE)
 <p align="center">

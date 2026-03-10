@@ -8,8 +8,7 @@
     "Accuracy": 92.18,
     "Precision": 0.9475,
     "Recall": 0.9604,
-    "F1_Score": 0.9539,
-    "ROC_AUC": 0.9545
+    "F1_Score": 0.9539
   },
   "XGBoost": {
     "MAE": 5237.79,
@@ -20,8 +19,7 @@
     "Accuracy": 86.91,
     "Precision": 0.9192,
     "Recall": 0.9407,
-    "F1_Score": 0.9298,
-    "ROC_AUC": 0.9274
+    "F1_Score": 0.9298
   },
   "HOGM-APO": {
     "MAE": 7594.43,
@@ -32,8 +30,7 @@
     "Accuracy": 88.1,
     "Precision": 0.9113,
     "Recall": 0.9306,
-    "F1_Score": 0.9209,
-    "ROC_AUC": 0.9268
+    "F1_Score": 0.9209
   },
   "MLP": {
     "MAE": 14025.88,
@@ -44,8 +41,7 @@
     "Accuracy": 76.15,
     "Precision": 0.7951,
     "Recall": 0.831,
-    "F1_Score": 0.8127,
-    "ROC_AUC": 0.8437
+    "F1_Score": 0.8127
   },
   "GCN": {
     "MAE": 15527.92,
@@ -56,8 +52,7 @@
     "Accuracy": 71.23,
     "Precision": 0.7634,
     "Recall": 0.8062,
-    "F1_Score": 0.7842,
-    "ROC_AUC": 0.8176
+    "F1_Score": 0.7842
   },
   "Graph-Mamba": {
     "MAE": 15996.18,
@@ -68,7 +63,6 @@
     "Accuracy": 77.69,
     "Precision": 0.7831,
     "Recall": 0.8159,
-    "F1_Score": 0.7991,
-    "ROC_AUC": 0.8424
+    "F1_Score": 0.7991
   }
 }
