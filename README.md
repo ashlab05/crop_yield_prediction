@@ -237,10 +237,11 @@ python run_hogm_apo.py
 python run_spatial_generalization.py
 ```
 
-### Run the Interactive Dashboard
+### 🖥️ Run the Interactive Dashboard Locally
 
-We built a stunning interactive React dashboard to visualize all results.
+We built a stunning interactive React dashboard to visualize all results, comparing models and explaining inferences.
 
+#### Start the Dashboard:
 ```bash
 # 1. Navigate to the dashboard directory
 cd dashboard
@@ -249,11 +250,13 @@ cd dashboard
 npm install
 
 # 3. Start the development server
-npx vite
+npm run dev
 ```
-Then, open `http://localhost:5173` in your browser.
+Then, open your browser and go to: **[http://localhost:5173](http://localhost:5173)**
 
-**To safely close the dashboard**, simply press `Ctrl + C` in your terminal.
+#### Stop the Dashboard:
+To safely close the dashboard and stop the local server, simply go to your terminal and press:
+**`Ctrl + C`**
 
 
 ---
